@@ -1,3 +1,6 @@
+transactions = []
+
+
 def show_menu():
     print("\nStudent Budget Planner")
     print("1. Add income")
@@ -7,19 +10,50 @@ def show_menu():
     print("5. Exit")
 
 
+def add_income():
+    source = input("Enter income source: ")
+    amount = float(input("Enter amount: "))
+
+    income = {
+        "type": "income",
+        "source": source,
+        "amount": amount
+    }
+
+    transactions.append(income)
+
+    print("Income added successfully")
+
+
+def view_transactions():
+    if not transactions:
+        print("No transactions yet")
+        return
+
+    print("\nTransactions:")
+
+    for transaction in transactions:
+        print(
+            f"{transaction['type']} | "
+            f"{transaction['source']} | "
+            f"${transaction['amount']}"
+        )
+
+
 def main():
     while True:
         show_menu()
+
         choice = input("Choose an option: ")
 
         if choice == "1":
-            print("Add income feature coming soon")
+            add_income()
 
         elif choice == "2":
-            print("Add expense feature coming soon")
+            print("Add expense feature coming tomorrow")
 
         elif choice == "3":
-            print("View transactions feature coming soon")
+            view_transactions()
 
         elif choice == "4":
             print("Summary feature coming soon")
@@ -29,7 +63,7 @@ def main():
             break
 
         else:
-            print("Invalid option. Try again.")
+            print("Invalid option")
 
 
 main()
