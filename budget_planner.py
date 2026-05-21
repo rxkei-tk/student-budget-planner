@@ -13,31 +13,54 @@ def show_menu():
 def add_income():
     source = input("Enter income source: ")
     amount = float(input("Enter amount: "))
+    date = input("Enter date: ")
 
     income = {
         "type": "income",
         "source": source,
-        "amount": amount
+        "amount": amount,
+        "date": date
     }
 
     transactions.append(income)
 
     print("Income added successfully")
 
+def add_expense():
+    category = input("Enter expense category: ").lower()
+    amount = float(input("Enter amount: "))
+    date = input("Enter date: ")
+
+    expense = {
+        "type": "expense",
+        "category": category,
+        "amount": amount,
+        "date": date
+    }
+
+    transactions.append(expense)
+
+    print("Expense added successfully")
 
 def view_transactions():
+
     if not transactions:
-        print("No transactions yet")
+        print("\nNo transactions yet")
         return
 
-    print("\nTransactions:")
+    print("\nTransactions")
 
-    for transaction in transactions:
-        print(
-            f"{transaction['type']} | "
-            f"{transaction['source']} | "
-            f"${transaction['amount']}"
-        )
+    for index, transaction in enumerate(transactions, start=1):
+
+        print(f"\n{index}. {transaction['type'].upper()}")
+
+        if transaction["type"] == "income":
+            print(f"   Source: {transaction['source']}")
+
+        elif transaction["type"] == "expense":
+            print(f"   Category: {transaction['category']}")
+
+        print(f"   Amount: ${transaction['amount']:.2f}")
 
 
 def main():
@@ -50,7 +73,7 @@ def main():
             add_income()
 
         elif choice == "2":
-            print("Add expense feature coming tomorrow")
+            add_expense()
 
         elif choice == "3":
             view_transactions()
