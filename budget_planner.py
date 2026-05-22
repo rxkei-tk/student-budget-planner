@@ -7,40 +7,53 @@ def show_menu():
     print("2. Add expense")
     print("3. View transactions")
     print("4. View summary")
-    print("5. Exit")
+    print("5. View category spending")
+    print("6. Exit")
 
 
 def add_income():
     source = input("Enter income source: ")
-    amount = float(input("Enter amount: "))
-    date = input("Enter date: ")
+    
+    try:
+        amount = float(input("Enter amount: "))
+    
+    except ValueError:
+        print("Invalid number")
 
     income = {
         "type": "income",
-        "source": source,
-        "amount": amount,
-        "date": date
+        "name": source,
+        "category": "income",
+        "amount": amount
     }
 
     transactions.append(income)
 
     print("Income added successfully")
+    print("Income added successfully")
+
 
 def add_expense():
+
     category = input("Enter expense category: ").lower()
-    amount = float(input("Enter amount: "))
-    date = input("Enter date: ")
+
+    try:
+        amount = float(input("Enter amount: "))
+    
+    except ValueError:
+        print("Invalid number")
 
     expense = {
         "type": "expense",
+        "name": category,
         "category": category,
-        "amount": amount,
-        "date": date
+        "amount": amount
     }
 
     transactions.append(expense)
 
     print("Expense added successfully")
+
 
 def view_transactions():
 
@@ -53,14 +66,61 @@ def view_transactions():
     for index, transaction in enumerate(transactions, start=1):
 
         print(f"\n{index}. {transaction['type'].upper()}")
+        print(f"   Name: {transaction['name']}")
+        print(f"   Category: {transaction['category']}")
+        print(f"   Amount: ${transaction['amount']:.2f}")
+
+
+def view_summary():
+
+    total_income = 0
+    total_expenses = 0
+
+    for transaction in transactions:
 
         if transaction["type"] == "income":
-            print(f"   Source: {transaction['source']}")
+            total_income += transaction["amount"]
 
         elif transaction["type"] == "expense":
-            print(f"   Category: {transaction['category']}")
+            total_expenses += transaction["amount"]
 
-        print(f"   Amount: ${transaction['amount']:.2f}")
+    remaining_balance = total_income - total_expenses
+    savings_rate = (remaining_balance / total_income) * 100
+
+    print("\nFinancial Summary")
+    print(f"\nTotal Income: ${total_income:.2f}")
+    print(f"Total Expenses: ${total_expenses:.2f}")
+    print(f"Remaining Balance: ${remaining_balance:.2f}")
+    print(f"Saving Rate: {savings_rate:.2f}%")
+
+    if remaining_balance < 0:
+        print("Warning: You are overspending")
+
+
+def view_category_summary():
+
+    category_totals = {}
+
+    for transaction in transactions:
+
+        if transaction["type"] == "expense":
+
+            category = transaction["category"]
+            amount = transaction["amount"]
+
+            if category not in category_totals:
+                category_totals[category] = 0
+
+            category_totals[category] += amount
+
+    if not category_totals:
+        print("\nNo expense data available")
+        return
+
+    print("\nSpending By Category")
+
+    for category, total in category_totals.items():
+        print(f"{category}: ${total:.2f}")
 
 
 def main():
@@ -79,9 +139,12 @@ def main():
             view_transactions()
 
         elif choice == "4":
-            print("Summary feature coming soon")
+            view_summary()
 
         elif choice == "5":
+            view_category_summary()
+
+        elif choice == "6":
             print("Goodbye")
             break
 
