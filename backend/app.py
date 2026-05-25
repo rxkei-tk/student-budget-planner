@@ -1,3 +1,14 @@
+from flask import Flask
+
+app = Flask(__name__)
+
+@app.route("/")
+def home():
+    return "Student Budget Planner API Running"
+app.run(debug=True)
+
+""" 
+
 transactions = []
 
 
@@ -153,3 +164,4 @@ def main():
 
 
 main()
+"""
