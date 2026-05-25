@@ -20,5 +20,18 @@ def create_tables():
     connection.commit()
     connection.close()
 
+def add_transaction(type, name, category, amount, date):
+    connection = sqlite3.connect("data/budget.db")
+    cursor = connection.cursor()
+
+    cursor.execute("""
+        INSERT INTO transactions (type, name, category, amount, date)
+        VALUES (?, ?, ?, ?, ?)
+    """, (type, name, category, amount, date))
+
+    connection.commit()
+    connection.close()
+
 
 create_tables()
+
