@@ -32,6 +32,23 @@ def add_transaction(type, name, category, amount, date):
     connection.commit()
     connection.close()
 
+def get_transactions():
+    connection = sqlite3.connect("data/budget.db")
+    cursor = connection.cursor()
+
+    cursor.execute("SELECT * FROM transactions")
+
+    transaction = cursor.fetchall()
+
+    connection.commit()
+    connection.close()
+
+    return transaction
+
 
 create_tables()
 
+transactions = get_transactions()
+
+for transaction in transactions:
+    print(f"{transaction[1]} | {transaction[2]} | ${transaction[4]:.2f}")
