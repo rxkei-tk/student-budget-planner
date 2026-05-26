@@ -1,5 +1,5 @@
-from flask import Flask, jsonify
-from database import get_transactions
+from flask import Flask, jsonify, request
+from database import get_transactions, add_transaction
 
 app = Flask(__name__)
 
@@ -13,10 +13,33 @@ def test():
     return "API test successful"
 
 
-@app.route("/transactions")
-def transactions():
+@app.route("/transactions", methods=["GET"])
+def get_trans():
     rows = get_transactions()
     return jsonify([dict(row) for row in rows])
+
+
+@app.route("/transactions", methods=["POST"])
+def add_trans():
+    data = request.get_json()
+
+    transaction_type = data["type"]
+    name = data["name"]
+    category = data["category"]
+    amount = float(data["amount"])
+    date = data["date"]
+
+    add_transaction(transaction_type, name, category, amount, date)
+    
+    return jsonify({
+        "message": "Transaction added",
+        "amount": amount,
+        "category": category,
+        "date": date,
+        "name": name,
+        "type": transaction_type  
+    }), 201
+
 
 
 if __name__ == "__main__":
