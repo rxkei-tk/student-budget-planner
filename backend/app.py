@@ -1,11 +1,26 @@
-from flask import Flask
+from flask import Flask, jsonify
+from database import get_transactions
 
 app = Flask(__name__)
 
 @app.route("/")
 def home():
     return "Student Budget Planner API Running"
-app.run(debug=True)
+
+
+@app.route("/test")
+def test():
+    return "API test successful"
+
+
+@app.route("/transactions")
+def transactions():
+    rows = get_transactions()
+    return jsonify([dict(row) for row in rows])
+
+
+if __name__ == "__main__":
+    app.run(host="127.0.0.1", port=5050, debug=True)
 
 """ 
 
