@@ -1,5 +1,5 @@
 from flask import Flask, jsonify, request
-from database import get_transactions, add_transaction, get_summary
+from database import get_transactions, add_transaction, get_summary, get_category_summary
 
 app = Flask(__name__)
 
@@ -10,8 +10,17 @@ def home():
 
 @app.route("/transactions")
 def get_trans():
-    rows = get_transactions()
-    return jsonify([dict(row) for row in rows])
+    return jsonify(get_transactions())
+
+
+@app.route("/summary")
+def summary():
+    return jsonify(get_summary())
+
+
+@app.route("/category-summary")
+def category_summary():
+    return jsonify(get_category_summary())
 
 
 @app.route("/transactions", methods=["POST"])
@@ -35,11 +44,7 @@ def add_trans():
     }), 201
 
 
-@app.route("/summary")
-def summary():
-    summary_data = get_summary()
-    
-    return jsonify(summary_data)
+
 
 
 if __name__ == "__main__":

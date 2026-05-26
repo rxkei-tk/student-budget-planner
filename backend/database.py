@@ -44,10 +44,10 @@ def get_transactions():
 
     cursor.execute("SELECT * FROM transactions")
 
-    transaction = cursor.fetchall()
+    rows = cursor.fetchall()
     connection.close()
 
-    return transaction
+    return [dict(row) for row in rows]
 
 def get_summary():
     connection = get_db_connection()
@@ -68,6 +68,23 @@ def get_summary():
         "total_expense": total_expense,
         "remaining_balance": balance
     }
+
+def get_category_summary():
+    connection = get_db_connection()
+    cursor = connection.cursor()
+
+    cursor.execute("""
+        SELECT category, SUM(amount) AS total
+        FROM transactions
+        WHERE type = 'expense'
+        GROUP BY category
+        ORDER BY total DESC
+    """)
+
+    rows = cursor.fetchall()
+    connection.close()
+
+    return [dict(row) for row in rows]
 
 
 
