@@ -7,7 +7,7 @@ def get_db_connection():
     return connection
 
 def create_tables():
-    connection = connection = get_db_connection()
+    connection = get_db_connection()
     cursor = connection.cursor()    
 
     cursor.execute("""
@@ -26,7 +26,7 @@ def create_tables():
 
 
 def add_transaction(type, name, category, amount, date):
-    connection = connection = get_db_connection()
+    connection = get_db_connection()
     cursor = connection.cursor()
 
     cursor.execute("""
@@ -39,18 +39,36 @@ def add_transaction(type, name, category, amount, date):
 
 
 def get_transactions():
-    connection = connection = get_db_connection()
-    connection.row_factory = sqlite3.Row
+    connection = get_db_connection()
     cursor = connection.cursor()
 
     cursor.execute("SELECT * FROM transactions")
 
     transaction = cursor.fetchall()
-
-    connection.commit()
     connection.close()
 
     return transaction
+
+def get_summary():
+    connection = get_db_connection()
+    cursor = connection.cursor()
+
+    cursor.execute("SELECT SUM(amount) FROM transactions WHERE type = 'income'")
+    total_income = cursor.fetchone()[0] or 0
+
+
+    cursor.execute("SELECT SUM(amount) FROM transactions WHERE type = 'expense'")    
+    total_expense = cursor.fetchone()[0] or 0
+
+    balance = total_income - total_expense
+    connection.close()
+
+    return {
+        "total_income": total_income,
+        "total_expense": total_expense,
+        "remaining_balance": balance
+    }
+
 
 
 create_tables()

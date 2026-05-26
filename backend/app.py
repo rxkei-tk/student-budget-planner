@@ -1,5 +1,5 @@
 from flask import Flask, jsonify, request
-from database import get_transactions, add_transaction
+from database import get_transactions, add_transaction, get_summary
 
 app = Flask(__name__)
 
@@ -8,7 +8,7 @@ def home():
     return "Student Budget Planner API Running"
 
 
-@app.route("/transactions", methods=["GET"])
+@app.route("/transactions")
 def get_trans():
     rows = get_transactions()
     return jsonify([dict(row) for row in rows])
@@ -34,6 +34,12 @@ def add_trans():
         "type": transaction_type  
     }), 201
 
+
+@app.route("/summary")
+def summary():
+    summary_data = get_summary()
+    
+    return jsonify(summary_data)
 
 
 if __name__ == "__main__":
