@@ -8,11 +8,6 @@ def home():
     return "Student Budget Planner API Running"
 
 
-@app.route("/test")
-def test():
-    return "API test successful"
-
-
 @app.route("/transactions", methods=["GET"])
 def get_trans():
     rows = get_transactions()
@@ -32,7 +27,6 @@ def add_trans():
     add_transaction(transaction_type, name, category, amount, date)
     
     return jsonify({
-        "message": "Transaction added",
         "amount": amount,
         "category": category,
         "date": date,

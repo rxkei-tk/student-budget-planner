@@ -1,7 +1,13 @@
 import sqlite3
 
-def create_tables():
+def get_db_connection():
     connection = sqlite3.connect("data/budget.db")
+    connection.row_factory = sqlite3.Row
+
+    return connection
+
+def create_tables():
+    connection = connection = get_db_connection()
     cursor = connection.cursor()    
 
     cursor.execute("""
@@ -18,8 +24,9 @@ def create_tables():
     connection.commit()
     connection.close()
 
+
 def add_transaction(type, name, category, amount, date):
-    connection = sqlite3.connect("data/budget.db")
+    connection = connection = get_db_connection()
     cursor = connection.cursor()
 
     cursor.execute("""
@@ -30,8 +37,9 @@ def add_transaction(type, name, category, amount, date):
     connection.commit()
     connection.close()
 
+
 def get_transactions():
-    connection = sqlite3.connect("data/budget.db")
+    connection = connection = get_db_connection()
     connection.row_factory = sqlite3.Row
     cursor = connection.cursor()
 
@@ -46,11 +54,3 @@ def get_transactions():
 
 
 create_tables()
-
-
-""" transactions = get_transactions()
-
-for transaction in transactions:
-    print(f"{transaction[1]} | {transaction[2]} | ${transaction[4]:.2f}")
-
-""" 
