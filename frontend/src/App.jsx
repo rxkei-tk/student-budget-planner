@@ -13,6 +13,21 @@ function App() {
 
   }
 
+  async function createTransaction(transaction) {
+    const response = await fetch("http://127.0.0.1:5050/transactions", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(transaction),
+    })
+
+    const data = await response.json()
+    console.log(data)
+
+    fetchTransactions()
+  }
+
   function addTransaction(transaction) {
     setTransactions([...transactions, transaction])
   }
@@ -30,7 +45,7 @@ function App() {
       </section>
 
       <section>
-        <TransactionForm onAddTransaction={addTransaction} />
+        <TransactionForm onAddTransaction={createTransaction} />
       </section>
 
       <section>
