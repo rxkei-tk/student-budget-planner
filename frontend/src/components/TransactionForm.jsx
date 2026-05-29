@@ -1,6 +1,6 @@
 import { useState } from "react"
 
-function TransactionForm() {
+function TransactionForm({ onAddTransaction }) {
     const [formData, setFormData] = useState({
         type: "expense",
         name: "",
@@ -20,6 +20,7 @@ function TransactionForm() {
 
     function handleSubmit(event) {
         event.preventDefault()
+        onAddTransaction(formData)
         console.log(formData)
 
         setFormData({
@@ -42,8 +43,8 @@ function TransactionForm() {
                     value={formData.type}
                     onChange={handleChange}
                 >
-                    <option value="income">Income</option>
-                    <option value="expense">Expense</option>
+                    <option value="Income">Income</option>
+                    <option value="Expense">Expense</option>
                 </select>
             </div>
             <div>

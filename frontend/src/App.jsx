@@ -4,6 +4,12 @@ import TransactionForm from "./components/TransactionForm"
 import TransactionList from "./components/TransactionList"
 
 function App() {
+  const [transactions, setTransactions] = useState([])
+
+  function addTransaction(transaction) {
+    setTransactions([...transactions, transaction])
+  }
+
   return (
     <main>
       <h1>Student Budget Planner</h1>
@@ -13,11 +19,11 @@ function App() {
       </section>
 
       <section>
-        <TransactionForm />
+        <TransactionForm onAddTransaction={addTransaction} />
       </section>
 
       <section>
-        <TransactionList />
+        <TransactionList transactions={transactions} />
       </section>
     </main>    
   )

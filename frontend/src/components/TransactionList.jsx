@@ -1,19 +1,24 @@
-function TransactionList() {
+function TransactionList({ transactions }) {
+    
+
+    if (transactions.length === 0) {
+        return <p>No transactions yet</p>
+    }
+
     return (
     <div>
         <h2>Transaction List</h2>
 
-        <div>
-            <p>Income | Student Allowance | $350</p>
-        </div>
-        <div>
-            <p>Expense | Lunch | $12.50</p>
-        </div>
-        <div>
-            <p>Expense | Bus | $5.00</p>
-        </div>
+        {transactions.map((transaction, index) => (
+            <div key={index}>
+                <p> Type: {transaction.type}</p>
+                <p> Name: {transaction.name}</p>
+                <p> Category: {transaction.category}</p>
+                <p> Amount: ${transaction.amount}</p>
+                <p> Date: {transaction.date}</p>
+            </div>
+        ))} 
     </div>
-        
     )
 }
 
