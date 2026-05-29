@@ -5,14 +5,21 @@ import TransactionList from "./components/TransactionList"
 
 function App() {
   return (
-    <div>
+    <main>
       <h1>Student Budget Planner</h1>
 
-      <SummaryCards />
-      <TransactionForm />
-      <TransactionList />
-    </div>
-    
+      <section>
+        <SummaryCards />
+      </section>
+
+      <section>
+        <TransactionForm />
+      </section>
+
+      <section>
+        <TransactionList />
+      </section>
+    </main>    
   )
 }
 
