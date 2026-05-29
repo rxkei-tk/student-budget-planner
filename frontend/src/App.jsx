@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect } from "react"
 import SummaryCards from "./components/SummaryCards"
 import TransactionForm from "./components/TransactionForm"
 import TransactionList from "./components/TransactionList"
@@ -6,9 +6,20 @@ import TransactionList from "./components/TransactionList"
 function App() {
   const [transactions, setTransactions] = useState([])
 
+  async function fetchTransactions() {
+    const response = await fetch("http://127.0.0.1:5050/transactions")
+    const data = await response.json()
+    setTransactions(data)
+
+  }
+
   function addTransaction(transaction) {
     setTransactions([...transactions, transaction])
   }
+
+  useEffect(() => {
+    fetchTransactions()
+  }, [])
 
   return (
     <main>

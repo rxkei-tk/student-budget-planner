@@ -8,6 +8,7 @@ function TransactionList({ transactions }) {
     return (
     <div>
         <h2>Transaction List</h2>
+        <p>-------------------------------------</p>
 
         {transactions.map((transaction, index) => (
             <div key={index}>
@@ -16,6 +17,7 @@ function TransactionList({ transactions }) {
                 <p> Category: {transaction.category}</p>
                 <p> Amount: ${transaction.amount}</p>
                 <p> Date: {transaction.date}</p>
+                <p>-------------------------------------</p>
             </div>
         ))} 
     </div>
